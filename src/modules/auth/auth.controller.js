@@ -2,6 +2,8 @@ import userModel from "../../../DB/model/user.model.js"
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken";
 import sendEmail from "../../services/email.js";
+import { customAlphabet, nanoid } from "nanoid";
+
 export const singnUp=async(req,res,next)=>{
 const {userName,email,password,phone,address}=req.body
 const user=await userModel.findOne({email})
@@ -50,4 +52,18 @@ export const signin=async(req,res,next)=>{
     const refreshToken = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGIN_SECRET,
         { expiresIn: 60 * 60 * 24 * 30 });
     return res.status(200).json({ message: "success", token, refreshToken });
+}
+
+export const sendCode =async(req,res,next)=>{
+    const {email} =req.body;
+    if (!await userModel.findOne({ email })) {
+        return next(new Error("Invalid email", { cause: 404 }));
+    }
+    let code = customAlphabet('1234567890ABCDabcd', 5);
+    code = code();
+    const user = await userModel.findOneAndUpdate({ email }, { sendCode: code }, { new: true });
+    const html = `<h2>code is: ${code} </h2>`;
+    await sendEmail(email, "Reset Password", html);
+    // return res.redirect(process.env.FORGET_PASSWORD_URL); // (to the page forgetPassword)
+    return res.status(200).json({ message: "success", user });
 }

@@ -30,3 +30,24 @@ export const confirmEmail =async(req,res,next)=>{
 }
 return res.status(200).json({ message: "your email is verified" });
 } 
+
+
+export const signin=async(req,res,next)=>{
+    
+    const {email,password}=req.body
+    const user=await userModel.findOne({email})
+    if (!user) {
+        return next(new Error("email not found", { cause: 400 }));
+    }
+    if (!user.confirmEmail) {
+        return next(new Error("Plz confirm your email", { cause: 400 }));
+    }
+     const match=await bcrypt.compare(password,user.password)
+     if (!match) {
+        return next(new Error("data invalid", { cause: 400 }));
+    }
+    const token =jwt.sign({id:user._id,role: user.role, status: user.status }, process.env.LOGIN_SECRET)
+    const refreshToken = jwt.sign({ id: user._id, role: user.role, status: user.status }, process.env.LOGIN_SECRET,
+        { expiresIn: 60 * 60 * 24 * 30 });
+    return res.status(200).json({ message: "success", token, refreshToken });
+}

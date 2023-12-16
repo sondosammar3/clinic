@@ -5,5 +5,5 @@ const router = Router();
 
 router.post('/signup',asyncHandler(authController.singnUp))
 router.get('/confirmEmail/:token', asyncHandler(authController.confirmEmail));
-
+router.post('/signin', asyncHandler(authController.signin));
 export default router

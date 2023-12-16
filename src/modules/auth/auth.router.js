@@ -3,6 +3,7 @@ import * as authController from '../auth/auth.controller.js'
 import { asyncHandler } from "../../services/errorHandling.js";
 const router = Router();
 
-router.post('/singup',asyncHandler(authController.singnUp))
+router.post('/signup',asyncHandler(authController.singnUp))
+router.get('/confirmEmail/:token', asyncHandler(authController.confirmEmail));
 
 export default router

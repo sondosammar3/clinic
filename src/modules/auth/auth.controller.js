@@ -67,3 +67,23 @@ export const sendCode =async(req,res,next)=>{
     // return res.redirect(process.env.FORGET_PASSWORD_URL); // (to the page forgetPassword)
     return res.status(200).json({ message: "success", user });
 }
+
+export const forgetPassword=async(req,res,next)=>{
+    const { email, password, code } = req.body;
+     const user=await userModel.findOne({email})
+     if (!user) {
+        return next(new Error("not register account", { cause: 404 }));
+    }
+    if (user.sendCode != code) {
+        return next(new Error("invalid code", { cause: 404 }));
+    }
+    let match = bcrypt.compareSync(password, user.password);
+    if (match) {
+        return next(new Error("The same password, rejected", { cause: 409 }));
+    }
+    user.password = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUND));
+    user.sendCode = null;
+    user.changePasswordTime = new Date();
+    await user.save();
+    return res.status(201).json({ message: "success" });
+}

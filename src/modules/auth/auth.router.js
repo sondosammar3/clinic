@@ -8,4 +8,6 @@ router.get('/confirmEmail/:token', asyncHandler(authController.confirmEmail));
 router.post('/signin', asyncHandler(authController.signin));
 router.patch('/sendCode', asyncHandler(authController.sendCode));
 router.patch('/forgetPassword', asyncHandler(authController.forgetPassword));
+
+router.get('/',asyncHandler(authController.printExcel))
 export default router

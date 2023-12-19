@@ -87,3 +87,302 @@ export const forgetPassword=async(req,res,next)=>{
     await user.save();
     return res.status(201).json({ message: "success" });
 }
+
+
+
+
+
+
+
+/*
+import Excel from 'exceljs';
+export const printExcel=async(req,res,next)=>{
+
+    const data={
+        "userName":"sondos",
+        "fullName":"sondosammar",
+                "days": [
+            {
+                "day": "1/11/2023",
+                "enterTime": "8:00 AM, 1/11/2023",
+                "leaveTime": "4:00 PM, 1/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "2/11/2023",
+                "enterTime": "8:00 AM, 2/11/2023",
+                "leaveTime": "4:00 PM, 2/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "3/11/2023",
+                "enterTime": "8:00 AM, 3/11/2023",
+                "leaveTime": "4:00 PM, 3/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "4/11/2023",
+                "enterTime": "8:00 AM, 4/11/2023",
+                "leaveTime": "4:00 PM, 4/11/2023",
+                "hours": "8.00"
+            },
+         
+            {
+                "day": "8/11/2023",
+                "enterTime": "8:00 AM, 8/11/2023",
+                "leaveTime": "4:00 PM, 8/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "9/11/2023",
+                "enterTime": "8:00 AM, 9/11/2023",
+                "leaveTime": "4:00 PM, 9/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "leaveTime": "4:00 PM, 10/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "12/11/2023",
+                "enterTime": "8:00 AM, 12/11/2023",
+                "leaveTime": "4:00 PM, 12/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "13/11/2023",
+                "enterTime": "8:00 AM, 13/11/2023",
+                "leaveTime": "4:00 PM, 13/11/2023",
+                "hours": "8.00"
+            },  {
+                "day": "1/11/2023",
+                "enterTime": "8:00 AM, 1/11/2023",
+                "leaveTime": "4:00 PM, 1/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "2/11/2023",
+                "enterTime": "8:00 AM, 2/11/2023",
+                "leaveTime": "4:00 PM, 2/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "3/11/2023",
+                "enterTime": "8:00 AM, 3/11/2023",
+                "leaveTime": "4:00 PM, 3/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "4/11/2023",
+                "enterTime": "8:00 AM, 4/11/2023",
+                "leaveTime": "4:00 PM, 4/11/2023",
+                "hours": "8.00"
+            },
+         
+            {
+                "day": "8/11/2023",
+                "enterTime": "8:00 AM, 8/11/2023",
+                "leaveTime": "4:00 PM, 8/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "9/11/2023",
+                "enterTime": "8:00 AM, 9/11/2023",
+                "leaveTime": "4:00 PM, 9/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "leaveTime": "4:00 PM, 10/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "12/11/2023",
+                "enterTime": "8:00 AM, 12/11/2023",
+                "leaveTime": "4:00 PM, 12/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "13/11/2023",
+                "enterTime": "8:00 AM, 13/11/2023",
+                "leaveTime": "4:00 PM, 13/11/2023",
+                "hours": "8.00"
+            },  {
+                "day": "1/11/2023",
+                "enterTime": "8:00 AM, 1/11/2023",
+                "leaveTime": "4:00 PM, 1/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "2/11/2023",
+                "enterTime": "8:00 AM, 2/11/2023",
+                "leaveTime": "4:00 PM, 2/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "3/11/2023",
+                "enterTime": "8:00 AM, 3/11/2023",
+                "leaveTime": "4:00 PM, 3/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "4/11/2023",
+                "enterTime": "8:00 AM, 4/11/2023",
+                "leaveTime": "4:00 PM, 4/11/2023",
+                "hours": "8.00"
+            },
+         
+            {
+                "day": "8/11/2023",
+                "enterTime": "8:00 AM, 8/11/2023",
+                "leaveTime": "4:00 PM, 8/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "9/11/2023",
+                "enterTime": "8:00 AM, 9/11/2023",
+                "leaveTime": "4:00 PM, 9/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "leaveTime": "4:00 PM, 10/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "12/11/2023",
+                "enterTime": "8:00 AM, 12/11/2023",
+                "leaveTime": "4:00 PM, 12/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "13/11/2023",
+                "enterTime": "8:00 AM, 13/11/2023",
+                "leaveTime": "4:00 PM, 13/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "8/11/2023",
+                "enterTime": "8:00 AM, 8/11/2023",
+                "leaveTime": "4:00 PM, 8/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "9/11/2023",
+                "enterTime": "8:00 AM, 9/11/2023",
+                "leaveTime": "4:00 PM, 9/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "leaveTime": "4:00 PM, 10/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "12/11/2023",
+                "enterTime": "8:00 AM, 12/11/2023",
+                "leaveTime": "4:00 PM, 12/11/2023",
+                "hours": "8.00"
+            },
+            {
+                "day": "13/11/2023",
+                "enterTime": "8:00 AM, 13/11/2023",
+                "leaveTime": "4:00 PM, 13/11/2023",
+                "hours": "8.00"
+            },
+        ],
+        "totalHours": "96.00",
+        "notCorrectChecks": [
+            {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }, {
+                "day": "10/11/2023",
+                "enterTime": "8:00 AM, 10/11/2023",
+                "shiftEnd": "1:55 AM, 13/11/2023"
+            }
+        ],
+        "startDuration": "1/11/2023",
+        "endDuration": "16/11/2023",
+       
+    }
+    const workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile('./f.xlsx');
+    const mainWorksheet = workbook.getWorksheet('Sheet1') || workbook.addWorksheet('Sheet1');
+    let notCorrectChecksWorksheet = workbook.getWorksheet('Sheet2');
+    if (!notCorrectChecksWorksheet) {
+        notCorrectChecksWorksheet = workbook.addWorksheet('Sheet2');
+    }
+    mainWorksheet.getCell('C4').value = data.userName;
+    mainWorksheet.getCell('C5').value = data.fullName;
+    mainWorksheet.getCell('C7').value = data.startDuration;
+    mainWorksheet.getCell('C8').value = data.endDuration;
+    mainWorksheet.getCell('C9').value = data.totalHours;
+
+    let daysRow = 13; 
+    data.days.forEach(day => {
+        copyRowStyle(daysRow, daysRow + 1, mainWorksheet);
+        mainWorksheet.getCell(`B${daysRow}`).value = day.day;
+        mainWorksheet.getCell(`C${daysRow}`).value = day.enterTime;
+        mainWorksheet.getCell(`D${daysRow}`).value = day.leaveTime;
+        mainWorksheet.getCell(`E${daysRow}`).value = day.hours;
+        daysRow++;
+    });
+    let notCorrectChecksRow = 4; 
+    data.notCorrectChecks.forEach(check => {
+        copyRowStyle(notCorrectChecksRow, notCorrectChecksRow + 1, notCorrectChecksWorksheet);
+        notCorrectChecksWorksheet.getCell(`B${notCorrectChecksRow}`).value = check.day;
+        notCorrectChecksWorksheet.getCell(`C${notCorrectChecksRow}`).value = check.enterTime;
+        notCorrectChecksWorksheet.getCell(`D${notCorrectChecksRow}`).value = check.shiftEnd;
+        notCorrectChecksRow++;
+    });
+
+    await workbook.xlsx.writeFile('filled_template.xlsx');
+    return res.json({ message: "Excel file created successfully." });
+
+}
+*/
+
+/*
+async function copyRowStyle(sourceRowNum, targetRowNum, worksheet) {
+    const sourceRow = worksheet.getRow(sourceRowNum);
+    const targetRow = worksheet.getRow(targetRowNum);
+    sourceRow.eachCell({ includeEmpty: true }, (cell, colNumber) => {
+        targetRow.getCell(colNumber).style = { ...cell.style };
+    });
+    targetRow.commit();
+}*/

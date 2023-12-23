@@ -1,4 +1,4 @@
-import mongoose, { Schema, model,Types } from 'mongoose';
+import mongoose, { Schema, model, Types } from 'mongoose';
 
 const appointmentSchema = new Schema({
     doctorId: {
@@ -16,7 +16,7 @@ const appointmentSchema = new Schema({
         required: true
     },
     appointmentTime: {
-        type: String, // could also be a Date type, depending on how you want to handle time
+        type: String,
         required: true
     },
     reason: {
@@ -25,12 +25,22 @@ const appointmentSchema = new Schema({
     },
     status: {
         type: String,
-        required: true,
         enum: ['Scheduled', 'Completed', 'Cancelled', 'No Show'],
         default: 'Scheduled'
     }
-}, { timestamps: true });
+},
+    {
+        timestamps: true,
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true }
+    });
 
+appointmentSchema.virtual('user', {
+    ref: 'User', // Reference to User model
+    localField: 'patientId',
+    foreignField: '_id',
+
+});
 const appointmentModel = model('Appointment', appointmentSchema);
 
 export default appointmentModel;

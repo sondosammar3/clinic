@@ -4,5 +4,5 @@ import * as appointmentController from './appointment.controller.js'
 import auth from '../../middleware/auth.js'
 import  {endPoint}  from './appointment.endPoint.js'
 const router=Router()
-router.post('/createAppointment',auth(endPoint.create),asyncHandler(appointmentController.createAppointment))
+router.post('/createAppointment/:doctorId',auth(endPoint.create),asyncHandler(appointmentController.createAppointment))
 export default router

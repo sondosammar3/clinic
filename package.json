@@ -21,6 +21,7 @@
     "express-fileupload": "^1.4.3",
     "fs": "^0.0.1-security",
     "jsonwebtoken": "^9.0.2",
+    "moment": "^2.29.4",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
     "nanoid": "^5.0.4",

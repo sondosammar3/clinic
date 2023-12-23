@@ -8,4 +8,7 @@ router.post('/createAppointment/:doctorId',auth(endPoint.create),asyncHandler(ap
 router.post('/updateStatus/:appointment_id',auth(endPoint.update),asyncHandler(appointmentController.updateStatus))
 router.get('/',auth(endPoint.review),asyncHandler(appointmentController.reviewAppointmentScheduled))
 router.get('/getAllappointment',auth(endPoint.review),asyncHandler(appointmentController.reviewAllAppointment))
+router.get('/GetAllAppointments_Patient/',auth(endPoint.GetAllAppointments_Patient),asyncHandler(appointmentController.GetAllAppointments_Patient))
+router.patch('/Cancel_Appointment/:appointmentId',auth(endPoint.Cancel_Appointment),asyncHandler(appointmentController.Cancel_Appointment))
+router.post('/appointmentsByDate',auth(endPoint.appointmentsByDate),asyncHandler(appointmentController.appointmentsByDate))
 export default router

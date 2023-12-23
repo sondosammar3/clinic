@@ -7,7 +7,7 @@ import { endPoint } from "./doctor.endPoint.js";
 
 router.post('/signup',auth(endPoint.addDoctor),asyncHandler(doctorController.signup))
 router.get('/doctorAvailability/:id',asyncHandler(doctorController.doctorAvailability))
-router.get('/',auth(endPoint.review),asyncHandler(doctorController.reviewAppointment))
-router.post('/updateStatus/:appointment_id',auth(endPoint.update),asyncHandler(doctorController.updateStatus))
+
+
 
 export default router

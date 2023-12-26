@@ -58,7 +58,18 @@ requierd:true
     endHour: {
         type: String,
         required: true
-   } }],
+   },
+    isActive:{
+        type:Boolean,
+        default:true,
+        enum: [true, false],
+    },
+    Date:{
+        type:Date,
+        requierd:true
+    }
+
+}],
    isDeleted:{
     type:Boolean,
     default: false,

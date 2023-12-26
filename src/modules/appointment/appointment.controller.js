@@ -17,6 +17,7 @@ export const createAppointment=async(req,res,next)=>{
         appointmentTime,
         reason,
     });
+    
     return res.json({message:"success",appointment})
 }
 
@@ -93,7 +94,6 @@ const doctorId=req.user._id
 const startOfDay = moment.utc(date).startOf('day');
 const endOfDay = moment.utc(date).endOf('day');
 console.log(startOfDay)
-const formattedDate = moment(date).startOf('day').toDate();
 console.log(endOfDay)
 const appointment = await appointmentModel.find({doctorId
     ,status:"Scheduled"

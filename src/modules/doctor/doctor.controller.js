@@ -26,11 +26,16 @@ export const doctorAvailability = async (req, res, next) => {
         return next(new Error("this doctor not exists", { cause: 400 }));
     }
     const availability = doctor.availability
+    if (!availability.length) {
+        return next(new Error("No future availability found for this doctor", { cause: 400 }))
+    }
     const arrayWithoutDate = availability.map(ele => ({
         day: ele.day,
         startHour: ele.startHour,
         endHour: ele.endHour
       }));
+      
+
    
  return res.json(arrayWithoutDate)
 

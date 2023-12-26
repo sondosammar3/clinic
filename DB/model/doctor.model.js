@@ -1,4 +1,4 @@
-import mongoose, { Schema,model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 const doctorSchema = new Schema({
     userName: {
         type: String,
@@ -22,9 +22,9 @@ const doctorSchema = new Schema({
         type: String,
         requierd: true,
     },
-    description:{
-type:String,
-requierd:true
+    description: {
+        type: String,
+        requierd: true
     },
     image: {
         type: Object,
@@ -45,41 +45,41 @@ requierd:true
     patientReviews: {
         type: String,
     },
-    availability: [ {
-         day: {
-        type: String,
-        required: true,
-        enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-    },
-    startHour: {
-        type: String,
-        required: true
-    },
-    endHour: {
-        type: String,
-        required: true
-   },
-    isActive:{
-        type:Boolean,
-        default:true,
-        enum: [true, false],
-    },
-    Date:{
-        type:Date,
-        requierd:true
-    }
+    availability: [{
+        day: {
+            type: String,
+            required: true,
+            enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+        },
+        startHour: {
+            type: String,
+            required: true
+        },
+        endHour: {
+            type: String,
+            required: true
+        },
+        isActive: {
+            type: Boolean,
+            default: true,
+            enum: [true, false],
+        },
+        Date: {
+            type: Date,
+            requierd: true
+        }
 
-}],
-   isDeleted:{
-    type:Boolean,
-    default: false,
-},
-sendCode:{
-    type:String,
-    default:null
-},
+    }],
+    isDeleted: {
+        type: Boolean,
+        default: false,
+    },
+    sendCode: {
+        type: String,
+        default: null
+    },
 
-},{timestamps:true})
+}, { timestamps: true })
 
 const doctorModel = mongoose.models.Doctor || model('Doctor', doctorSchema);
 export default doctorModel

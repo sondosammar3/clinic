@@ -17,7 +17,6 @@ export const createAppointment=async(req,res,next)=>{
         appointmentTime,
         reason,
     });
-    
     return res.json({message:"success",appointment})
 }
 

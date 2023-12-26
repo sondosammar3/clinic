@@ -23,11 +23,11 @@ const appointmentSchema = new Schema({
         type: String,
         required: false
     },
-    status: {
+    status:{
         type: String,
         enum: ['Scheduled', 'Completed', 'Cancelled', 'No Show'],
         default: 'Scheduled'
-    }
+    },
 },
     {
         timestamps: true,
@@ -36,7 +36,7 @@ const appointmentSchema = new Schema({
     });
 
 appointmentSchema.virtual('user', {
-    ref: 'User', // Reference to User model
+    ref: 'User', 
     localField: 'patientId',
     foreignField: '_id',
 

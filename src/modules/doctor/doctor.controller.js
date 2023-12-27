@@ -34,9 +34,7 @@ export const doctorAvailability = async (req, res, next) => {
         startHour: ele.startHour,
         endHour: ele.endHour
       }));
-      
-
-   
+    
  return res.json(arrayWithoutDate)
 
 }

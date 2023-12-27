@@ -1,22 +1,59 @@
 import appointmentModel from "../../../DB/model/appointment.model.js";
+import BookedAppointmentModel from "../../../DB/model/bookedAppointment.model.js";
 import doctorModel from "../../../DB/model/doctor.model.js";
 import moment from 'moment'
 //user
 export const createAppointment=async(req,res,next)=>{
-    const doctor_Id=req.params.doctorId
-    const {appointmentDate, appointmentTime, reason } = req.body; 
-    const doctor = await doctorModel.findById(doctor_Id);
-    if (!doctor) {
-        return next(new Error( "this doctor not exists", { cause: 400 })); 
-    }
-    const appointment = await appointmentModel.create({
-        doctorId: doctor._id,
-        patientId: req.user._id,
-        appointmentDate,
-        appointmentTime,
-        reason,
-    });
-    return res.json({message:"success",appointment})
+    const doctor_Id = req.params.doctorId;
+    const { appointmentDate, appointmentTime, reason } = req.body;
+        const doctor = await doctorModel.findById(doctor_Id);
+
+        if (!doctor) {
+            const bookedAppointment = await BookedAppointmentModel.create({
+                doctorId: doctor._id,
+                bookedHour: [{
+                    patientId: req.user._id,
+                    appointmentDate,
+                    bookedHours: appointmentTime,
+                }],
+            });
+
+            const booked = await BookedAppointmentModel.findOne({ doctorId: doctor._id })
+                .select('-_id')
+                .populate({ path: 'doctorId', select: "_id userName email" });
+
+            return res.json({ message: "Doctor not found. Booked appointment created.", booked });
+        }
+
+        const appointment = await appointmentModel.create({
+            doctorId: doctor._id,
+            patientId: req.user._id,
+            appointmentDate,
+            appointmentTime,
+            reason,
+        }); 
+
+        let booked = await BookedAppointmentModel.findOne({ doctorId: doctor._id });
+ 
+        if (!booked) {
+            booked = new BookedAppointmentModel({
+                doctorId: doctor._id,
+                bookedHour: [],
+            });
+        }
+
+        booked.bookedHour.push({
+            patientId: req.user._id,
+            appointmentDate,
+            bookedHours: appointmentTime,
+        });
+        await booked.save();
+        
+        const bookedd = await BookedAppointmentModel.findOne({ doctorId: doctor_Id })
+        .select("-_id")
+        .populate({ path: 'doctorId', select: "-_id userName email" });
+
+    return res.json({ message: "Booked appointment created", bookedd });
 }
 
 //doctor

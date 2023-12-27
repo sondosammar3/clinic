@@ -1,4 +1,4 @@
-import mongoose ,{ Schema,model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 
 const bookedAppointmentSchema = new mongoose.Schema({
     doctorId: {
@@ -6,21 +6,27 @@ const bookedAppointmentSchema = new mongoose.Schema({
         ref: 'Doctor',
         required: true,
     },
-    appointmentDate: {
-        type: Date,
-        required: true,
-    },
-    bookedHour: {
-        type: String,
-        required: true,
-    },
-    patientId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Patient',
-        required: true,
-    },
+
+    bookedHour: [
+        {
+            patientId: { type: mongoose.Schema.Types.ObjectId, ref: 'Patient', required: true },
+            appointmentDate: { type: Date, required: true },
+            bookedHours: { type: String, required: true },
+
+        }
+    ]
+},{
+    timestamps:true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
 });
 
-const BookedAppointment =mongoose.models.BookedAppointment|| mongoose.model('BookedAppointment', bookedAppointmentSchema);
+bookedAppointmentSchema.virtual('Doctor', {
+    ref: 'Doctor', 
+    localField: 'doctorId',
+    foreignField: '_id',
 
-module.exports = BookedAppointment;
+});
+const BookedAppointmentModel = mongoose.models.BookedAppointment || mongoose.model('BookedAppointment', bookedAppointmentSchema);
+
+export default BookedAppointmentModel;

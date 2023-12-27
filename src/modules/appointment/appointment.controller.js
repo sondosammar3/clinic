@@ -6,7 +6,6 @@ export const createAppointment=async(req,res,next)=>{
     const doctor_Id=req.params.doctorId
     const {appointmentDate, appointmentTime, reason } = req.body; 
     const doctor = await doctorModel.findById(doctor_Id);
-
     if (!doctor) {
         return next(new Error( "this doctor not exists", { cause: 400 })); 
     }
@@ -21,6 +20,7 @@ export const createAppointment=async(req,res,next)=>{
 }
 
 //doctor
+//update by appointment_id 
 export const updateStatus=async(req,res,next)=>{
     const { appointment_id } = req.params;
     const { status } = req.body;
@@ -92,8 +92,6 @@ const {date}=req.body
 const doctorId=req.user._id
 const startOfDay = moment.utc(date).startOf('day');
 const endOfDay = moment.utc(date).endOf('day');
-console.log(startOfDay)
-console.log(endOfDay)
 const appointment = await appointmentModel.find({doctorId
     ,status:"Scheduled"
 ,   appointmentDate: {

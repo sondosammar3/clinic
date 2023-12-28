@@ -5,11 +5,31 @@ import moment from 'moment'
 export const createAppointment=async(req,res,next)=>{
     const doctorId = req.params.doctorId;
     const { appointmentDate, appointmentTime, reason } = req.body;
-        const doctor = await doctorModel.findById(doctorId);
+  
+    const startOfDay = moment.utc(appointmentDate).startOf('day');
+const endOfDay = moment.utc(appointmentDate).endOf('day');
+const doctor=await doctorModel.findOne({ _id: doctorId,})
+
+const testHours = doctor.availability.filter(ele => ele.Date == Date(appointmentDate))// 
+return res.status(200).json(doctor.availability);
+        const availabilityDate = await doctorModel.findOne(
+            {
+                _id: doctorId,
+                'availability.Date': {
+                    $gte: startOfDay.toDate(),
+                    $lt: endOfDay.toDate()
+                }
+            },
+         
+        )
+        return res.json(doctor)
+        
+        
+        
         if (!doctor) {
             return next(new Error("Doctor not found", { status: 400 }));
         }
-
+        
         const currentDate = moment(appointmentDate).startOf('day');
         const existingAppointment = await appointmentModel.findOne({
             doctorId,

@@ -25,7 +25,6 @@ export const signup = async (req, res, next) => {
 
 export const doctorAvailability = async (req, res, next) => {
     const _id = req.params.id
-    const { incrementMinutes } = req.query
     const doctor = await doctorModel.findOne({ _id, isDeleted: false, status: 'Active' }).select('-password -status -sendCode -createdAt -updatedAt -isDeleted')
     if (!doctor) {
         return next(new Error("this doctor not exists", { cause: 400 }));

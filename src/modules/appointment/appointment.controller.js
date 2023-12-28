@@ -9,10 +9,16 @@ export const createAppointment = async (req, res, next) => {
     const startOfDay = moment.utc(appointmentDate).startOf('day');
     const endOfDay = moment.utc(appointmentDate).endOf('day');
     const doctor = await doctorModel.findOne({ _id: doctorId, })
+    if(!doctor){
+        return next(new Error("this doctor not found", { status: 400 }));
+    }
     const test = doctor.availability.filter((ele => ele.Date <= endOfDay && ele.Date >= startOfDay))[0]
+  
+    if(test.availabilityHouer.length==0){
+        return next(new Error("availabilityHouer not found for this doctor", { status: 400 }));
+    }
     let houer = test.availabilityHouer.includes(appointmentTime)
     if (houer) {
-
         const appointment = await appointmentModel.create({
             doctorId,
             patientId: req.user._id,
@@ -26,9 +32,10 @@ export const createAppointment = async (req, res, next) => {
             await doctor.save();
 
         }
-       
+       return res.status(200).json(appointment);
     }
- return res.status(200).json(doctor);
+    return next(new Error("Houer not vailability for this doctor", { status: 400 }));
+
 }
 
 //doctor

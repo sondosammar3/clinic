@@ -1,5 +1,4 @@
 import mongoose, { Schema, model, Types } from 'mongoose';
-
 const appointmentSchema = new Schema({
     doctorId: {
         type: Types.ObjectId,
@@ -23,11 +22,12 @@ const appointmentSchema = new Schema({
         type: String,
         required: false
     },
-    status:{
-        type: String,
+    status: {
+        type: String,  
+        default: 'Scheduled',
         enum: ['Scheduled', 'Completed', 'Cancelled', 'No Show'],
-        default: 'Scheduled'
     },
+
 },
     {
         timestamps: true,
@@ -36,7 +36,7 @@ const appointmentSchema = new Schema({
     });
 
 appointmentSchema.virtual('user', {
-    ref: 'User', 
+    ref: 'User',
     localField: 'patientId',
     foreignField: '_id',
 

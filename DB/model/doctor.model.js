@@ -55,10 +55,16 @@ const doctorSchema = new Schema({
             type: String,
             required: true
         },
+        
         endHour: {
             type: String,
             required: true
         },
+        availabilityHouer: {
+            type: [String],
+            default: [],
+        }
+        ,
         isActive: {
             type: Boolean,
             default: true,
@@ -78,6 +84,10 @@ const doctorSchema = new Schema({
         type: String,
         default: null
     },
+    range:{
+        type:Number,
+        requierd:true
+    }
 
 }, { timestamps: true })
 

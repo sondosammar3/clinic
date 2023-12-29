@@ -8,5 +8,5 @@ import * as validationdoctor from './doctor.validation.js'
 import { validation } from "../../middleware/validation.js";
 router.post('/signup',auth(endPoint.addDoctor),validation(validationdoctor.signup),asyncHandler(doctorController.signup))
 router.get('/doctorAvailability/:id',asyncHandler(doctorController.doctorAvailability))
-
+router.post('/updateRange',auth(endPoint.updateRange),validation(validationdoctor.updateRange),asyncHandler(doctorController.updateRange))
 export default router

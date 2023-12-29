@@ -23,3 +23,8 @@ export const signup = joi.object({
     ).required(),
 
 });
+
+export const updateRange=joi.object({
+range:joi.number().required()
+
+})

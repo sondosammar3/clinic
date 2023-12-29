@@ -1,7 +1,6 @@
 import doctorModel from "../../../DB/model/doctor.model.js"
 import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken";
-
 import appointmentModel from "../../../DB/model/appointment.model.js";
 import moment from 'moment'
 
@@ -14,7 +13,6 @@ export const signup = async (req, res, next) => {
     for(let i =0 ;i<availability.length;i++){
         const hoursRange = generateHoursRange(availability[i].startHour, availability[i].endHour, range);
               availability[i].availabilityHouer=hoursRange
-
     } 
     const hashedPassword = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUND));
     req.body.password = hashedPassword
@@ -36,7 +34,6 @@ export const doctorAvailability = async (req, res, next) => {
 
     return res.json(doctor)
 }
-
 
 
 function generateHoursRange(startHour, endHour, range) {
@@ -61,4 +58,16 @@ function generateHoursRange(startHour, endHour, range) {
     }
 
     return hours;
+}
+
+export const updateRange=async(req,res,next)=>{
+    const {range}=req.body
+    const doctorId = req.user.id;
+
+        const updatedDoctor = await doctorModel.findByIdAndUpdate(
+            {_id:doctorId},
+            { range },
+            { new: true }
+        );
+        return res.json(updatedDoctor)
 }

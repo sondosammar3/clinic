@@ -12,6 +12,7 @@ export const signup = joi.object({
     address:joi.string().required(),
     gender:joi.string().valid('Male', 'Female').insensitive().required(),
     range:joi.number(),
+    examinationPrice: joi.number().required(),
     availability:joi.array().items(
         joi.object({
             day: joi.string().valid('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday').insensitive().required(),
@@ -21,7 +22,7 @@ export const signup = joi.object({
             availabilityHouer:joi.array()
         })
     ).required(),
-
+  
 });
 
 export const updateRange=joi.object({

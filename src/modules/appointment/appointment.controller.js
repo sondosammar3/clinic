@@ -2,6 +2,7 @@ import { json } from "express";
 import appointmentModel from "../../../DB/model/appointment.model.js";
 import doctorModel from "../../../DB/model/doctor.model.js";
 import moment from 'moment'
+import invoiceModel from "../../../DB/model/invoice.model.js";
 //user
 export const createAppointment = async (req, res, next) => {
     const doctorId = req.params.doctorId;
@@ -42,17 +43,29 @@ export const createAppointment = async (req, res, next) => {
 //update by appointment_id 
 export const updateStatus = async (req, res, next) => {
     const { appointment_id } = req.params;
+    
     const { status } = req.body;
     const appointment = await appointmentModel.findOneAndUpdate(
         { _id: appointment_id },
         { status },
         { new: true }
-    );
+    ).populate({
+        path: 'patientId',
+        select: '_id userName email phone address'
+    });
+    const doctor=await doctorModel.findById(req.user.id)
     if (!appointment) {
         return next(new Error("Appointment not found", { status: 400 }));
-    }
-
-    return res.json(appointment);
+    } 
+    if (status === 'Completed') {
+        const invoice = await invoiceModel.create({
+            doctorId: appointment.doctorId,
+            patientId: appointment.patientId,
+            Date: new Date(),
+            price: doctor.examinationPrice // Assuming 'examinationPrice' is correct
+        });
+       return res.json({ message: "Invoice created", invoice });
+  }
 
 }
 

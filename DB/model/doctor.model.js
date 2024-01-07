@@ -4,6 +4,10 @@ const doctorSchema = new Schema({
         type: String,
         requierd: true
     },
+    examinationPrice: {
+        type: Number,
+        required: true,
+    },
     password: {
         type: String,
         required: true,
@@ -55,7 +59,7 @@ const doctorSchema = new Schema({
             type: String,
             required: true
         },
-        
+
         endHour: {
             type: String,
             required: true
@@ -84,9 +88,9 @@ const doctorSchema = new Schema({
         type: String,
         default: null
     },
-    range:{
-        type:Number,
-        requierd:true
+    range: {
+        type: Number,
+        requierd: true
     }
 
 }, { timestamps: true })

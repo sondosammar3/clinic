@@ -4,8 +4,10 @@ import jwt from "jsonwebtoken";
 import appointmentModel from "../../../DB/model/appointment.model.js";
 import moment from 'moment'
 
-export const signup = async (req, res, next) => {
+export const signup = async (req, res, next) => { 
+    
     const { email, password,range,availability} = req.body
+   
     const user = await doctorModel.findOne({ email }) 
     if (user) {
         return next(new Error("email already exists", { cause: 400 }));

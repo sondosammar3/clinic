@@ -10,7 +10,7 @@ router.post('/createAppointment/:doctorId',auth(endPoint.create),validation(vali
 router.post('/updateStatus/:appointment_id',auth(endPoint.update),asyncHandler(appointmentController.updateStatus))
 
 router.get('/',auth(endPoint.review),asyncHandler(appointmentController.reviewAppointmentScheduled))
-router.get('/getAllappointment',auth(endPoint.review),asyncHandler(appointmentController.reviewAllAppointment))
+router.get('/getAllappointment',auth(endPoint.review),asyncHandler(appointmentController.reviewAllAppointment))//doctor
 router.get('/GetAllAppointments_Patient/',auth(endPoint.GetAllAppointments_Patient),asyncHandler(appointmentController.GetAllAppointments_Patient))
 
 router.patch('/Cancel_Appointment/:appointmentId',auth(endPoint.Cancel_Appointment),validation(validationAppointment.Cancel_Appointment),asyncHandler(appointmentController.Cancel_Appointment))

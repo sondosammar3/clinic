@@ -3,6 +3,7 @@ import appointmentModel from "../../../DB/model/appointment.model.js";
 import doctorModel from "../../../DB/model/doctor.model.js";
 import moment from 'moment'
 import invoiceModel from "../../../DB/model/invoice.model.js";
+import medicalReportModel from "../../../DB/model/medicalReports.model.js";
 //user
 export const createAppointment = async (req, res, next) => {
     const doctorId = req.params.doctorId;
@@ -43,7 +44,6 @@ export const createAppointment = async (req, res, next) => {
 //update by appointment_id 
 export const updateStatus = async (req, res, next) => {
     const { appointment_id } = req.params;
-    
     const { status } = req.body;
     const appointment = await appointmentModel.findOneAndUpdate(
         { _id: appointment_id },
@@ -64,7 +64,13 @@ export const updateStatus = async (req, res, next) => {
             Date: new Date(),
             price: doctor.examinationPrice // Assuming 'examinationPrice' is correct
         });
-       return res.json({ message: "Invoice created", invoice });
+        const medicalReport= await medicalReportModel.create({
+            doctorId: appointment.doctorId,
+            patientId: appointment.patientId,
+            reportDate: new Date(),
+          
+        });
+       return res.json({ message: "Invoice created", invoice,medicalReport });
   }
 
 }

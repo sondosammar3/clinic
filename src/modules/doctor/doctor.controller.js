@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import appointmentModel from "../../../DB/model/appointment.model.js";
 import moment from 'moment'
 
+//admin
 export const signup = async (req, res, next) => { 
     
     const { email, password,range,availability} = req.body
@@ -23,6 +24,7 @@ export const signup = async (req, res, next) => {
     return res.status(201).json({ message: "success", createUser });
 }
 
+//any one
 export const doctorAvailability = async (req, res, next) => {
     const _id = req.params.id
     const doctor = await doctorModel.findOne({ _id, isDeleted: false, status: 'Active' }).select('-password -status -sendCode -createdAt -updatedAt -isDeleted')
@@ -62,6 +64,7 @@ function generateHoursRange(startHour, endHour, range) {
     return hours;
 }
 
+//doctor
 export const updateRange=async(req,res,next)=>{
     const {range}=req.body
     const doctorId = req.user.id;

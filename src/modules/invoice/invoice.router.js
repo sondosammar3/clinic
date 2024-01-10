@@ -16,7 +16,7 @@ router.post('/updatePriceOrStatus/:invoice_id',auth(endPoint.update),validation(
 //doctor
 router.post('/cancelInvoice/:invoice_id',auth(endPoint.cancelInvoice),validation(validationinvoice.cancelInvoice),asyncHandler(invoiceController.cancelInvoice))
 
-//****Print****
+//********
 router.get('/printInvoice/:invoice_id',auth(endPoint.printInvoice),asyncHandler(invoiceController.printInvoice))
 
 

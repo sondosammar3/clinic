@@ -48,7 +48,10 @@ sendCode:{
     type:String,
     default:null
 }},{
-    timestamps:true
+    timestamps:true,
+
 })
+
+
 const userModel=mongoose.models.User || model('User',userSchema);
   export default userModel

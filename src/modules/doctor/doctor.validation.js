@@ -22,7 +22,7 @@ export const signup = joi.object({
             availabilityHouer:joi.array()
         })
     ).required(),
-  
+  file:generalFields.file
 });
 
 export const updateRange=joi.object({

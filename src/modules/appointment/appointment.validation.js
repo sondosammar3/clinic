@@ -18,5 +18,7 @@ export const Cancel_Appointment=joi.object({
 })
 
 export const appointmentsByDate=joi.object({
-    Date:joi.date().greater('now').required()
+    date:joi.date().greater('now').required(),
+    page:joi.number().min(1),
+    limit:joi.number().min(1)
 })

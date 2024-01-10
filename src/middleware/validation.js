@@ -8,18 +8,37 @@ export const generalFields={
         'string.empty':'password is required',
     }),
     id:joi.string().pattern(/^[0-9a-f]{24}$/).required(),
-    phone:joi.string().pattern(/^[0-9]+$/).min(10).max(15).required()
+    phone:joi.string().pattern(/^[0-9]+$/).min(10).max(15).required(),
+    file:joi.object({
+        size:joi.number().positive().required(),
+        path:joi.string().required(),
+        filename:joi.string().required(),
+        destination:joi.string().required(),
+        mimetype:joi.string().required(),
+        encoding:joi.string().required(),
+        originalname:joi.string().required(),
+         fieldname:joi.string().required(),
+         dest:joi.string(),
+    }),
 }
 
+
 export const validation=(schema)=>{
-return (req,res,next)=>{
-    const inputsData={...req.body,...req.params,...req.query}
-    const validationResult=schema.validate(inputsData,{abortEarly:false})
-    if(validationResult.error?.details){
-        return res.status(400).json({message:"validation error",validationError:validationResult.error?.details
-    })
+    return (req,res,next)=>{
+        const inputsData={...req.body,...req.params,...req.query}
+        if(req.file|| req.files){
+            inputsData.file=req.file|| req.files
+        }
+console.log(inputsData.file)
+
+        const validationResult=schema.validate(inputsData,{abortEarly:false})
+        if(validationResult.error?.details){
+            return res.status(400).json({message:"validation error",
+       validationError:validationResult.error?.details
+        })
+        }
+        next()
     }
-    next()
-}
-}
+    }
  
+

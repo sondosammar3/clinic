@@ -4,6 +4,7 @@ import doctorModel from "../../../DB/model/doctor.model.js";
 import moment from 'moment'
 import invoiceModel from "../../../DB/model/invoice.model.js";
 import medicalReportModel from "../../../DB/model/medicalReports.model.js";
+import { pagination } from "../../services/pagination.js";
 //user
 export const createAppointment = async (req, res, next) => {
     const doctorId = req.params.doctorId;
@@ -75,10 +76,11 @@ export const updateStatus = async (req, res, next) => {
 
 }
 
-//doctor
+// done pagination doctor
 export const reviewAppointmentScheduled = async (req, res, next) => {
     const doctorId = req.user._id;
-    const appointments = await appointmentModel.find({ doctorId, status: 'Scheduled' }).select('-_id -createdAt -updatedAt -doctorId ').populate({
+    const {skip,limit}=pagination(req.query.page,req.query.limit)
+    const appointments = await appointmentModel.find({ doctorId, status: 'Scheduled' }).skip(skip).limit(limit).select('-_id -createdAt -updatedAt -doctorId ').populate({
         path: 'patientId',
         select: '_id  userName email phone address',
     });
@@ -89,10 +91,11 @@ export const reviewAppointmentScheduled = async (req, res, next) => {
     return res.json({ message: 'Appointments found', appointments });
 }
 
-//doctor
+// done pagination doctor
 export const reviewAllAppointment = async (req, res, next) => {
     const doctorId = req.user._id;
-    const appointments = await appointmentModel.find({ doctorId }).select('-_id -createdAt -updatedAt -doctorId ').populate({
+    const {skip,limit}=pagination(req.query.page,req.query.limit)
+    const appointments = await appointmentModel.find({ doctorId }).skip(skip).limit(limit).select('-_id -createdAt -updatedAt -doctorId ').populate({
         path: 'patientId',
         select: '_id  userName email phone address',
     });
@@ -103,13 +106,14 @@ export const reviewAllAppointment = async (req, res, next) => {
     return res.json({ message: 'Appointments found', appointments });
 }
 
-//user
+//user done pagination
 export const GetAllAppointments_Patient = async (req, res, next) => {
     const patientId = req.user._id
-    const appointments = await appointmentModel.find({ patientId }).select(' -createdAt -updatedAt -doctorId -__v ').populate({
+    const {skip,limit}=pagination(req.query.page,req.query.limit)
+    const appointments = await appointmentModel.find({ patientId }).skip(skip).limit(limit).select(' -createdAt -updatedAt -doctorId -__v ').populate({
         path: 'patientId',
         select: '-_id  userName email ',
-    });
+    }).sort({createAt:-1});
 
 
     return res.json(appointments)
@@ -126,6 +130,9 @@ export const Cancel_Appointment = async (req, res, next) => {
 }
 //doctor
 export const appointmentsByDate = async (req, res, next) => {
+
+    const {skip,limit}=pagination(req.query.page,req.query.limit) 
+    
     const { date } = req.body
     const doctorId = req.user._id
     const startOfDay = moment.utc(date).startOf('day');
@@ -137,7 +144,10 @@ export const appointmentsByDate = async (req, res, next) => {
             $gte: startOfDay.toDate(),
             $lt: endOfDay.toDate()
         }
-    }).select('-doctorId -appointmentDate -reason -status').populate('user'); // Select the appointment time for available slots
+    }).skip(skip).limit(limit).select('-doctorId -appointmentDate -reason -status').populate({
+        path: 'patientId',
+        select: '_id  userName email phone address',
+        }); // Select the appointment time for available slots
     if (!appointment) {
         return next(new Error("appointments not cancel", { cause: 400 }));
     }

@@ -9,10 +9,15 @@ const router=Router()
 router.post('/createAppointment/:doctorId',auth(endPoint.create),validation(validationAppointment.createAppointment),asyncHandler(appointmentController.createAppointment))
 router.post('/updateStatus/:appointment_id',auth(endPoint.update),asyncHandler(appointmentController.updateStatus))
 
+//**done pagination
 router.get('/',auth(endPoint.review),asyncHandler(appointmentController.reviewAppointmentScheduled))
+//**done pagination
 router.get('/getAllappointment',auth(endPoint.review),asyncHandler(appointmentController.reviewAllAppointment))//doctor
+//**done pagination
 router.get('/GetAllAppointments_Patient/',auth(endPoint.GetAllAppointments_Patient),asyncHandler(appointmentController.GetAllAppointments_Patient))
 
 router.patch('/Cancel_Appointment/:appointmentId',auth(endPoint.Cancel_Appointment),validation(validationAppointment.Cancel_Appointment),asyncHandler(appointmentController.Cancel_Appointment))
+
+//**done pagination
 router.post('/appointmentsByDate',auth(endPoint.appointmentsByDate),validation(validationAppointment.appointmentsByDate),asyncHandler(appointmentController.appointmentsByDate))
 export default router

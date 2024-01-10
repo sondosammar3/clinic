@@ -8,7 +8,7 @@ const medicalReportSchema = new mongoose.Schema({
     },
     patientId: {
         type:Types.ObjectId,
-        ref: 'Patient',
+        ref: 'User',
         required: true
     },
     reportDate: {
@@ -19,8 +19,29 @@ const medicalReportSchema = new mongoose.Schema({
         type: String,
    
     },
-    attachments: [String], // Array of file paths or URLs for attachments
-}, { timestamps: true });
+    attachments: 
+        {
+            type: Object
+        }
+    , 
+    isDeleted:{
+        type:Boolean,
+        default:false,
+        enm:[true,false]
+    }
+}, 
+{ timestamps: true ,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true }
+
+});
+
+medicalReportSchema.virtual('MedicalReport', {
+    ref: 'User',
+    localField: 'patientId',
+    foreignField: '_id',
+    
+    });
 
 const medicalReportModel =mongoose.models.MedicalReport|| mongoose.model('MedicalReport', medicalReportSchema);
 

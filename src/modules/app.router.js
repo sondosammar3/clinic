@@ -5,6 +5,7 @@ import { globalErrorHandler } from "../services/errorHandling.js";
 import doctorRouter from "./doctor/doctor.router.js";
 import appointmentRouter from '../modules/appointment/appointment.router.js'
 import invoiceRouter from'../modules/invoice/invoice.router.js'
+import medicalReportRouter from '../modules/medicalReport/medicalReport.router.js'
 const initApp=(app,express)=>{
 app.use(express.json());
 connectDB()
@@ -12,6 +13,7 @@ app.use('/doctor',doctorRouter)
 app.use('/auth',authRouter)
 app.use('/appointment',appointmentRouter)
 app.use('/invoice',invoiceRouter)
+app.use('/medicalReport',medicalReportRouter)
 app.get('/', (req, res) => res.status(200).json({ message: "welcome" }));
 app.use('*', (req, res) => res.status(500).json({ message: "Page not found" }));
 app.use(globalErrorHandler);

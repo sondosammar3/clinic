@@ -3,12 +3,11 @@ import bcrypt from 'bcryptjs'
 import jwt from "jsonwebtoken";
 import appointmentModel from "../../../DB/model/appointment.model.js";
 import moment from 'moment'
-
+import cloudinary from "../../services/cloudinary.js";
 //admin
-export const signup = async (req, res, next) => { 
-    
+export const signup = async (req, res, next) => {  
+
     const { email, password,range,availability} = req.body
-   
     const user = await doctorModel.findOne({ email }) 
     if (user) {
         return next(new Error("email already exists", { cause: 400 }));
@@ -20,6 +19,8 @@ export const signup = async (req, res, next) => {
     const hashedPassword = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUND));
     req.body.password = hashedPassword
 
+  
+   
     const createUser = await doctorModel.create(req.body);
     return res.status(201).json({ message: "success", createUser });
 }

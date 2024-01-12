@@ -1,12 +1,11 @@
 import doctorModel from "../../../DB/model/doctor.model.js"
 import bcrypt from 'bcryptjs'
-import jwt from "jsonwebtoken";
-import appointmentModel from "../../../DB/model/appointment.model.js";
+
 import moment from 'moment'
 import cloudinary from "../../services/cloudinary.js";
+import { read } from "fs";
 //admin
 export const signup = async (req, res, next) => {  
-
     const { email, password,range,availability} = req.body
     const user = await doctorModel.findOne({ email }) 
     if (user) {
@@ -19,8 +18,12 @@ export const signup = async (req, res, next) => {
     const hashedPassword = bcrypt.hashSync(password, parseInt(process.env.SALT_ROUND));
     req.body.password = hashedPassword
 
-  
-   
+    if(req.file){
+        const { secure_url, public_id } = await cloudinary.uploader.upload(req.file.path,
+            { folder:`${process.env.APP_NAME}/doctor` });
+          
+            req.body.image={secure_url, public_id}
+    }
     const createUser = await doctorModel.create(req.body);
     return res.status(201).json({ message: "success", createUser });
 }

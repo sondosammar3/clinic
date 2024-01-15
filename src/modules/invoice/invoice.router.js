@@ -17,7 +17,7 @@ router.post('/updatePriceOrStatus/:invoice_id',auth(endPoint.update),validation(
 router.post('/cancelInvoice/:invoice_id',auth(endPoint.cancelInvoice),validation(validationinvoice.cancelInvoice),asyncHandler(invoiceController.cancelInvoice))
 
 //********
-router.get('/printInvoice/:invoice_id',auth(endPoint.printInvoice),asyncHandler(invoiceController.printInvoice))
+router.get('/printInvoice/:invoice_id',auth(endPoint.printInvoice),validation(validationinvoice.printInvoice),asyncHandler(invoiceController.printInvoice))
 
 
 

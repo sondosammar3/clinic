@@ -9,3 +9,7 @@ export const updatePriceOrStatus = joi.object({
 export const cancelInvoice = joi.object({
     invoice_id: generalFields.id.required(),
 })
+
+export const printInvoice=joi.object({
+    medicalReport_id: generalFields.id.required()
+})

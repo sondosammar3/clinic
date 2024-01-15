@@ -5,5 +5,5 @@ export const endPoint={
     getallInvoice_User:[roles.User],
     update:[roles.Doctor],
     cancelInvoice:[roles.Doctor],
-    printInvoice:[roles.Doctor,roles.User]
+    printInvoice:[roles.Doctor]
 }

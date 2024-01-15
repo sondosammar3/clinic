@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs'
 
 import moment from 'moment'
 import cloudinary from "../../services/cloudinary.js";
-import { read } from "fs";
+
 //admin
 export const signup = async (req, res, next) => {  
     const { email, password,range,availability} = req.body

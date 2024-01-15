@@ -11,5 +11,5 @@ export const cancelInvoice = joi.object({
 })
 
 export const printInvoice=joi.object({
-    medicalReport_id: generalFields.id.required()
+    invoice_id: generalFields.id.required()
 })

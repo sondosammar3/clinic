@@ -26,7 +26,7 @@ asyncHandler(medicalReportController.cancelMedicalReport))
 
 
 //********
-router.get('/printMedicalReport/:medicalReport_id',auth(endPoint.printMedicalReport),asyncHandler(medicalReportController.printMedicalReport))
+router.get('/printMedicalReport/:medicalReport_id',auth(endPoint.printMedicalReport),validation(medicalReportvalidation.printMedicalReport),asyncHandler(medicalReportController.printMedicalReport))
 
 
 export default router

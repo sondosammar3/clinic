@@ -2,7 +2,10 @@ import appointmentModel from "../../../DB/model/appointment.model.js";
 import invoiceModel from "../../../DB/model/invoice.model.js"
 import Excel from 'exceljs';
 import moment from 'moment'
-
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 //doctor
 export const getallInvoice_Doctor = async (req, res) => {
     const doctorId = req.user._id
@@ -46,6 +49,10 @@ export const updatePriceOrStatus = async (req, res) => {
 
 //doctor
 export const printInvoice = async (req, res) => {
+    const workbook = new Excel.Workbook();
+    const filePath = join(__dirname, '../../Template/print.xlsx');
+ 
+    await workbook.xlsx.readFile(filePath);
     const invoice_id = req.params.invoice_id;
 
     const invoice = await invoiceModel.find({ _id: invoice_id }).populate({
@@ -70,8 +77,7 @@ export const printInvoice = async (req, res) => {
         return next(new Error("appointments not cancel", { cause: 400 }));
     }
 
-    const workbook = new Excel.Workbook();
-    await workbook.xlsx.readFile('./print.xlsx');
+  
     const mainWorksheet = workbook.getWorksheet('Sheet1');
     mainWorksheet.getCell('C4').value =  invoice[0].patientId.userName
     mainWorksheet.getCell('C5').value = invoice[0].doctorId.userName

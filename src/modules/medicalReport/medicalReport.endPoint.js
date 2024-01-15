@@ -4,5 +4,5 @@ export const endPoint={
     medicalReport_User:[roles.User],
     updateMedicalReport:[roles.Doctor],
     cancelMedicalReport:[roles.Doctor],
-    printMedicalReport:[roles.Doctor,roles.User]
+    printMedicalReport:[roles.Doctor]
 }

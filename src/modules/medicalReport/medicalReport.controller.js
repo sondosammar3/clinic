@@ -4,6 +4,10 @@ import medicalReportModel from "../../../DB/model/medicalReports.model.js";
 import cloudinary from "../../services/cloudinary.js";
 import moment from 'moment'
 import Excel from 'exceljs';
+import { fileURLToPath } from "url";
+import { dirname, join } from "path";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 export const getallmedicalReport_Doctor = async (req, res) => {
 
     const doctorId = req.user._id
@@ -86,6 +90,10 @@ export const cancelMedicalReport = async (req, res) => {
 
 //
 export const printMedicalReport = async (req, res) => {
+     const workbook = new Excel.Workbook();
+    const filePath = join(__dirname, '../../Template/report.xlsx');
+ 
+    await workbook.xlsx.readFile(filePath);
     const medicalReport_id = req.params.medicalReport_id
     const medicalReport = await medicalReportModel.find({ _id: medicalReport_id }).populate({
         path: 'patientId',
@@ -111,8 +119,8 @@ export const printMedicalReport = async (req, res) => {
     }
 
 
-    const workbook = new Excel.Workbook();
-    await workbook.xlsx.readFile('./report.xlsx');
+   
+   
     const mainWorksheet = workbook.getWorksheet('Sheet1');
     mainWorksheet.getCell('C4').value = medicalReport[0].patientId.userName
     mainWorksheet.getCell('C5').value = appointment[0].doctorId.userName

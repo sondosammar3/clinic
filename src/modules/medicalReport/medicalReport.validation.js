@@ -15,3 +15,7 @@ export const updateMedicalReport=joi.object({
 export const cancelMedicalReport=joi.object({
     medicalReport_id: generalFields.id.required(), 
 })
+
+export const printMedicalReport=joi.object({
+    medicalReport_id: generalFields.id.required(), 
+})

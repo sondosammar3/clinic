@@ -85,8 +85,13 @@ export const printInvoice = async (req, res) => {
     mainWorksheet.getCell('C7').value = appointment[0].appointmentTime
     mainWorksheet.getCell('C8').value =  invoice[0].price
 
-    await workbook.xlsx.writeFile('template.xlsx');
-    return res.json({ message: "Excel file created successfully." });
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    // Set the appropriate headers for file download
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename=${data.fullName}-report.xlsx`);
+    // Send the buffer in the response
+    return res.send(buffer);
 }
 
 //doctor 

@@ -136,9 +136,13 @@ export const printMedicalReport = async (req, res) => {
 
         daysRow++;
     })
-    await workbook.xlsx.writeFile('Reporttemplate.xlsx');
-    // return res.json({ message: "Excel file created successfully." });
-    return res.json("ii")
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    // Set the appropriate headers for file download
+    res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    res.setHeader('Content-Disposition', `attachment; filename=${data.fullName}-report.xlsx`);
+    // Send the buffer in the response
+    return res.send(buffer);
 }
 async function copyRowStyle(sourceRowNum, targetRowNum, worksheet) {
     const sourceRow = worksheet.getRow(sourceRowNum);

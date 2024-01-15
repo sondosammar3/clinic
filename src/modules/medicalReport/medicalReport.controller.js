@@ -140,7 +140,7 @@ export const printMedicalReport = async (req, res) => {
 
     // Set the appropriate headers for file download
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-    res.setHeader('Content-Disposition', `attachment; filename=${data.fullName}-report.xlsx`);
+    res.setHeader('Content-Disposition', `attachment; filename=${medicalReport[0].patientId._id}-report.xlsx`);
     // Send the buffer in the response
     return res.send(buffer);
 }
